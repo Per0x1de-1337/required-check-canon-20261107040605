@@ -1,0 +1,21 @@
+name: required-check-name-probe
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    # The PR title is the only attacker-controlled value used by this fixture.
+    # The job never checks out or executes pull-request content.
+    name: ${{ github.event.pull_request.title }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Emit a benign marker
+        shell: bash
+        run: |
+          printf '%s\n' 'required-check-name-canonicalization-fixture'
